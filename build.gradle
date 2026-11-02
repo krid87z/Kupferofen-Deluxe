@@ -3,29 +3,29 @@ plugins {
     id 'net.minecraftforge.gradle' version '[7.0.29,8.0)'
 }
 
-version = '1.0.0'
-group = 'de.kupferofen'
-base.archivesName = 'kupferofen_deluxe'
+version = mod_version
+group = mod_group_id
+base.archivesName = mod_id
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 minecraft {
-    mappings channel: 'official', version: '1.21.11'
+    mappings channel: mapping_channel, version: mapping_version
 
     runs {
         register('client')
+        register('server') {
+            args '--nogui'
+        }
     }
-}
-
-repositories {
-    minecraft.mavenizer(it)
-    maven fg.forgeMaven
-    maven fg.minecraftLibsMaven
-    mavenCentral()
 }
 
 dependencies {
     implementation minecraft.dependency(
-        'net.minecraftforge:forge:1.21.11-61.2.4'
+        "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     )
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
